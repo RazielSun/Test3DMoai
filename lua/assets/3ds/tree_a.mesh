@@ -9,8 +9,8 @@ local function init ( objects )
 
 	table = objects [ 0x03 ]
 	table.mTotalVBOs = 0
-	table.mSize = 864
-	table.mData = 'nZLLDcAwCEPZrAcv1t08WH+qSokwoY2UQ54UGxmbGczvdbbj3G86X5eB82RNDudBP/PlS2vkdP7o0/8E34rDecu34lk+SHxnnB/mocgty+fPvijyYbEv1HMq/Rav9pX1NssNk/5Q9IeiP6rPwXcH'
+	table.mSize = 5904
+	table.mData = 'nZh/aNR1GMdv7G5Tm8sjauuPZuZgIv66Tstozu99nrBEbFi6kYNNsWFw1h9r5YgI1/y5QKZXTJcmMzcdE3fqUW6Ud9/vTYaMFDHZ5jiCmKPNJeJfUcra+TG+36eP789dHdw/Lz48n+d5P8/z+TzfT6T7B2tsaxOd+d5LLtfzK12uTSsnp35hfwadaj9NjXdN4eSTL9aJgwu6qGFHmPHp/dkUuNZEZVWrp3is5B9ediYqtvubKXHjIuPuuqFY2/jbdPboBON83ySPlSR5hPlp820tg9au4mIqLA+y9dUb86l7RSM985fbdNpHfr7253TDM/IC1W6YRk7+8ZUV8U/rWqhg1+yAM94I0G3Lc+tE9m+9tOppD+M9F74IHPfsETNL35uy4ypJ/pN87c6sQHHVLbP6Ha9w8ls1dx7yH2s7Yk7O/Uzal/HyuGzOdbY50gfpQMGQyNybR2va+wNOfm/2EcMXvkwDDYdYPSDdkD61ITK3diZozrFOgfVH+9pcrRPJXzqdEe8162n4lblsvVo/eo7s9HpHrEt3FtHniyssXP92vNy+zdV8ofUxbT2gvCN9eF/bnOcL9altH/mp6iB5kW+7mfuBmwpOPmU6+1fV85GdiSHzq50+WtqaFXfycM2wGK1aQ5sGf2frK+Lz6WBwM827uoVxtZ4lV+tWcuujzPiq9SfoqH+mxeJi/qD1tv3bJ65Yrd8cosVfZzL/R6O/BiqfWEK7+/MZR32xf/S+NRi9TD2rbxpOru4ruaqD5OgcQP2+9nqj1X67nXIis+Lp6MP9tDk6H3i8Nlft6/3pKGwQraN+Gis/y/zhOv/XPKa2g+oZ3VOozlF9Ivs83tR20HrUR2hf1I/Ifl9Pk3Gy+XUx9nKb6bzXPPULYyPn3hS7Nxrsfiw7ljDPH74oWp7l69G+qI+QPygupJt6P0o+cOmNQH3zEsot7WL3dU6oI1p53089wSdZXIN3G82l3hvirSKXweIC94V6v0v+y9VvxYN916nC18b6gp8zdn2ifkH1rN6/+ryr9+Pjzr3/09ePuDIvSfvqfBUDdSX5hYIic7M5JO6FD7O66g7OCcya4aN/c5RftZ6l/S+/c4u+jhoRyv855uT9k9ZD/z2RHMvJZ+S5rVen+MJzXYaTo3hRXGpdSf7TeLZlvNsnrh1Yb6RjB/Up6kekZ/m2TjMZl7FswtTb1+uD4lL7S/LxDz8zP+ldRpXve6L6vMu6Uu2juV3yaO4RcyC0nKr37kurfpA+ap3o539VH1eJ7vsCnTPovEXxqn5KjvRE9Y/yrtpBdauPS827vm5RHlG+EEfnQ/r66/VBfYTyiHRDOqB+UfXRnyfoHEPxorhQXpD/KF50L6j9pT+30b2G3iXQvYnmDTRXoLnxwfI94o/W/bQjbxq7r/mcb3M+16F5wPF9p8yBkqtzlOTIHzRv3ByeKxZ5u6k0kBtPxx9uP7Wf/LsmtT7IH5Xr55NE4QFr4lSCsjLqrHTmN9VPydG+nNvx8jkw9XsX8hPNk8gflHekJ9IfvROiuNR3QvS+JO2r75aSq/FKjt610PsV0g1x9I6K3l2RP8g+yq9qR8arrn/c+4PN+XmY+juaf+fq7Ov9V98TENfHhc6lvwE='
 
 	table = objects [ 0x05 ]
 	table.mAttributeUseTable = objects [ 0x06 ]
@@ -91,7 +91,7 @@ local function init ( objects )
 	table.mTotalVertexBuffers = 1
 	table.mVertexBuffers = objects [ 0x14 ]
 	table.mPenWidth = 1
-	table.mTotalElements = 36
+	table.mTotalElements = 246
 	table.mTotalVAOs = 0
 	table.mIndexBuffer = 0
 	table.mBounds = objects [ 0x16 ]
@@ -104,12 +104,12 @@ local function init ( objects )
 	table.mFormat = 4
 
 	table = objects [ 0x16 ]
-	table.mMaxZ = 128
-	table.mMinX = -128
-	table.mMinZ = -128
-	table.mMinY = -128
-	table.mMaxX = 128
-	table.mMaxY = 128
+	table.mMaxZ = 145.7174987793
+	table.mMinX = -189.80648803711
+	table.mMinZ = -152.79501342773
+	table.mMinY = -28.671501159668
+	table.mMaxX = 170.7631072998
+	table.mMaxY = 443.33908081055
 
 	deserializer:initObject ( objects [ 0x01 ], 'MOAIMesh', nil, objects [ 0x0F ], objects [ 0x13 ]) --MOAIMesh
 	deserializer:initObject ( objects [ 0x02 ], 'MOAIVertexBuffer', nil, nil, objects [ 0x03 ]) --MOAIVertexBuffer

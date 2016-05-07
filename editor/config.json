@@ -2,20 +2,20 @@
   "mesh_export_config": {
     "data": [
       {
-        "path": "/Users/rsun/Developer/Moai/Projects/Tools/FruityTools/FruityLayoutMap/3ds/mycube.fbx", 
-        "per_pixel": 256.0
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mycube.fbx", 
+        "per_pixel": 256
       }, 
       {
-        "path": "/Users/rsun/Developer/Moai/Projects/Tools/FruityTools/FruityLayoutMap/3ds/rocks/Models/rock_a.fbx", 
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mycube-obj/mycube.obj", 
+        "per_pixel": 256
+      }, 
+      {
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/rocks/Models/rock_a.fbx", 
+        "per_pixel": 3.0
+      }, 
+      {
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/trees/Models/Trees/tree_a.fbx", 
         "per_pixel": 1.0
-      }, 
-      {
-        "path": "/Users/rsun/Developer/Moai/Projects/Tools/FruityTools/FruityLayoutMap/3ds/trees/Models/Trees/tree_b.fbx", 
-        "per_pixel": 1.0
-      }, 
-      {
-        "path": "/Users/rsun/Developer/Moai/Projects/Tools/FruityTools/FruityLayoutMap/3ds/mycube-obj/mycube.obj", 
-        "per_pixel": 256.0
       }
     ], 
     "export_path": "assets/3ds/", 

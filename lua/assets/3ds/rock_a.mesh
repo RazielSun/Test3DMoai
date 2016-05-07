@@ -9,8 +9,8 @@ local function init ( objects )
 
 	table = objects [ 0x03 ]
 	table.mTotalVBOs = 0
-	table.mSize = 864
-	table.mData = 'nZLLDcAwCEPZrAcv1t08WH+qSokwoY2UQ54UGxmbGczvdbbj3G86X5eB82RNDudBP/PlS2vkdP7o0/8E34rDecu34lk+SHxnnB/mocgty+fPvijyYbEv1HMq/Rav9pX1NssNk/5Q9IeiP6rPwXcH'
+	table.mSize = 1944
+	table.mData = 'bZVdSFNhGMcXlamEqVlQLDLLjDC7cTW8eM/2rg8nXih0o1kJpTGXw5uxgjBmRBgU9jEUp0QL7YMg08pm0twLKSxKqCDMT1jQhZJk5M2y2nPgOTyc95zLH3+e9/98nqWKHm4yNYnXzjX84uIYK4ikKf+Sn6OrUOXBlGei60+vxoMpbTyjOcw3dJlVfbt1q8rHfYNR2/ErjnWrWvmE7YAyFZpiwLv3t4kSR9BRHLoddY3la9xZ8UGcXgnzactbO+iHAysqj1+9LNyd3fzn0mP13cbKIjV+7bFtfLj4Cd80+1TAu8ipT+AzMabyzYlsvtd1yzHK0vjyfJFSEHEqej/wbru12tA/6hNDK9GgN8yP7IjzQw0tDDn1n3/ivsYf7RoQ4OfUqxYOHON/Xz8i6nff5W/8pSLL4mdrr5Uq+nyB51nsKm8bf6/Gmfl2UmzcE9L0uds77A8i1x0N7irhSdYg91O1lBfwvqoyqQ4VvRZNH73gEr/LHvLPaXni4413jKfWSPH7/Qus339O5WfrI/YtgT7+K8OtctTTd51Do8xXd0mK4xrr0Th9F/jyvEeaK1+doszEmqW+BzKtSsLrk/yAHjnNF+qP/ml84OifxoH+GnGYh9ZOm+QHuHvxqNRHmHPU03wT3oMK1oHqgQcyz0tzArOMev2c9/sLDfeCp5qlfGGPkNO5gvqXm/dJfqCPyOm7oJ8MmQ3n6kfsL9Pv0VxhvsbpHgFf+DLN9PmCf6wnnSvwb1RP0COn8Z/HsxVb7wvJD/DagTtM3t+dmp7O7UhVLFmHRinfe+XzGqdzAvrJUI3kE/LF/aV6qJvRHQA93gF6T+A+4P5S/8Bx3/V3A/UlTXNR4CODs7zd+pUZ3TfgeK/ou3AfUE/jQ774LvVzZvWE9i7tL+iN7hXUPz3npjQP0C/YSX184Kincw5aT6VHygv2HTmtA3C8MzROa6dJ6UjWQt934C8Ph6V5Ts/J0vRL5H8KfcH9pfGB492jfqBfqP8P'
 
 	table = objects [ 0x05 ]
 	table.mAttributeUseTable = objects [ 0x06 ]
@@ -91,7 +91,7 @@ local function init ( objects )
 	table.mTotalVertexBuffers = 1
 	table.mVertexBuffers = objects [ 0x14 ]
 	table.mPenWidth = 1
-	table.mTotalElements = 36
+	table.mTotalElements = 81
 	table.mTotalVAOs = 0
 	table.mIndexBuffer = 0
 	table.mBounds = objects [ 0x16 ]
@@ -104,12 +104,12 @@ local function init ( objects )
 	table.mFormat = 4
 
 	table = objects [ 0x16 ]
-	table.mMaxZ = 128
-	table.mMinX = -128
-	table.mMinZ = -128
-	table.mMinY = -128
-	table.mMaxX = 128
-	table.mMaxY = 128
+	table.mMaxZ = 113.56498718262
+	table.mMinX = -103.1568069458
+	table.mMinZ = -88.512901306152
+	table.mMinY = -60
+	table.mMaxX = 82.658096313477
+	table.mMaxY = 310.52520751953
 
 	deserializer:initObject ( objects [ 0x01 ], 'MOAIMesh', nil, objects [ 0x0F ], objects [ 0x13 ]) --MOAIMesh
 	deserializer:initObject ( objects [ 0x02 ], 'MOAIVertexBuffer', nil, nil, objects [ 0x03 ]) --MOAIVertexBuffer
