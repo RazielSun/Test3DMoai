@@ -6,11 +6,11 @@ attribute vec4 position;
 attribute vec2 uv;
 attribute vec4 color;
 
-varying LOWP vec4 colorVarying;
-varying MEDP vec2 uvVarying;
+varying vec4 colorVarying;
+varying vec2 uvVarying;
 
 void main () {
-    gl_Position = position * transform;
+    gl_Position = position;
 	uvVarying = uv;
     colorVarying = color;
 }
@@ -25,34 +25,33 @@ varying MEDP vec2 uvVarying;
 
 uniform sampler2D sampler;
 
-const float RADIUS = 0.74;
-const float SOFTNESS = 0.45;
-const vec3 SEPIA = vec3(1.2, 1.0, 0.8);
+const vec2 DIR = vec2(1.0, 1.0);
+
+const float RADIUS = 1.0;
 
 void main() {
-	vec4 color = texture2D ( sampler, uvVarying );
+	vec4 sum = vec4(0.0);
 
-	// 1. VIGNETTE
+	vec2 tc = uvVarying;
 
-	vec2 position = (gl_FragCoord.xy / vec2(viewWidth, viewHeight)) - vec2(0.5);
+	float blur = RADIUS / viewWidth;
 
-	float len = length(position);
+	float hstep = DIR.x;
+	float vstep = DIR.y;
 
-	float vignette = smoothstep( RADIUS, RADIUS-SOFTNESS, len);
+    sum += texture2D(sampler, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.0162162162;
+    sum += texture2D(sampler, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.0540540541;
+    sum += texture2D(sampler, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.1216216216;
+    sum += texture2D(sampler, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.1945945946;
 
-	color.rgb = mix(color.rgb, color.rgb*vignette, 0.5);
+    sum += texture2D(sampler, vec2(tc.x, tc.y)) * 0.2270270270;
 
-	// 2. GRAYSCALE
+    sum += texture2D(sampler, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.1945945946;
+    sum += texture2D(sampler, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.1216216216;
+    sum += texture2D(sampler, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.0540540541;
+    sum += texture2D(sampler, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.0162162162;
 
-	float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
-
-	// 3. SEPIA
-
-	vec3 sepiaColor = vec3(gray) * SEPIA;
-
-	color.rgb = mix(color.rgb, sepiaColor, 0.75);
-
-	gl_FragColor = color * colorVarying;
+    gl_FragColor = colorVarying * vec4(sum.rgb, 1.0);
 }
 ]=]
 
@@ -63,18 +62,19 @@ local M_ = {}
 function M_:setup( layer )
 	self:createShaderProgram()
 	self:createShader()
+	self:createFrameBuffer()
 
 	local prop2 = self:addMyMesh()
-	layer:insertProp ( prop2 )
+	prop2:setLoc( 0, 0, 0 )
+	self.layer:insertProp ( prop2 )
 
 	local prop = self:loadMesh()
-	layer:insertProp ( prop )
+	prop:setLoc( 0, 0, -200 )
+	self.layer:insertProp ( prop )
 
-	local camera = MOAICamera.new ()
-	camera:setLoc( 0, 500, 1000 )
-	camera:lookAt( 0, 0, 600 )
-	camera:setOrtho( false )
-	layer:setCamera ( camera )
+	local bprop = self:createBufferProp()
+	bprop:setShader( self.shader ) -- self.shader
+	layer:insertProp ( bprop )
 end
 
 function M_:createShaderProgram()
@@ -105,6 +105,44 @@ function M_:createShader()
 	self.shader = shader
 end
 
+function M_:createFrameBuffer()
+	local viewport = MOAIViewport.new ()
+	viewport:setSize(App.screenWidth, App.screenHeight)
+    viewport:setScale(App.viewWidth, App.viewHeight)
+
+	local layer = MOAILayer.new ()
+	layer:setViewport ( viewport )
+
+	local camera = MOAICamera.new ()
+	camera:setLoc( 0, 500, 1000 )
+	camera:lookAt( 0, 0, 500 )
+	camera:setOrtho( false )
+
+	layer:setCamera ( camera )
+	
+	local frameBuffer = MOAIFrameBufferTexture.new ()
+	frameBuffer:setRenderTable ({ layer })
+	frameBuffer:init ( App.viewWidth, App.viewHeight )
+	frameBuffer:setClearColor ( 0, 0, 0, 1 )
+
+	MOAIRenderMgr.setBufferTable ({ frameBuffer })
+	
+	self.frameBuffer = frameBuffer
+	self.layer = layer
+end
+
+function M_:createBufferProp()
+	local gfxQuad = MOAIGfxQuad2D.new ()
+	-- gfxQuad:setTexture ( self.frameBuffer )
+	gfxQuad:setRect ( -App.viewWidth*0.5, -App.viewHeight*0.5, App.viewWidth*0.5, App.viewHeight*0.5 )
+	gfxQuad:setUVRect ( 0, 0, 1, 1 )
+
+	local prop = MOAIProp2D.new ()
+	prop:setTexture ( self.frameBuffer )
+	prop:setDeck ( gfxQuad )
+	return prop
+end
+
 function M_:loadMesh()
 	local file = MOAIFileSystem.loadFile( 'assets/3ds/MyBoxy.mesh' )
     local mesh = assert( loadstring(file) )()
@@ -112,7 +150,7 @@ function M_:loadMesh()
     print('mesh', mesh, mesh.textureName)
 
     mesh:setTexture ( "assets/3ds/moai.png" )
-    mesh:setShader ( self.shader )
+    mesh:setShader ( MOAIShaderMgr.getShader( MOAIShaderMgr.MESH_SHADER ) )
 
     local prop = MOAIProp.new ()
 	prop:setDeck ( mesh )
@@ -210,7 +248,7 @@ function M_:createMesh()
 	mesh:setVertexBuffer( vbo, vertexFormat )
 	mesh:setTexture ( "assets/3ds/moai.png" )
 	mesh:setPrimType ( MOAIMesh.GL_TRIANGLES )
-	mesh:setShader ( self.shader )--MOAIShaderMgr.getShader( MOAIShaderMgr.MESH_SHADER ) )
+	mesh:setShader ( MOAIShaderMgr.getShader( MOAIShaderMgr.MESH_SHADER ) )
 	-- mesh:setShader ( MOAIShaderMgr.getShader ( MOAIShaderMgr.LINE_SHADER_3D ))
 	mesh:setTotalElements( vbo:countElements( vertexFormat ) )
 	mesh:setBounds( vbo:computeBounds( vertexFormat ) )

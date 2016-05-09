@@ -6,53 +6,30 @@ attribute vec4 position;
 attribute vec2 uv;
 attribute vec4 color;
 
-varying LOWP vec4 colorVarying;
-varying MEDP vec2 uvVarying;
+varying vec4 colorVarying;
+varying vec2 uvVarying;
 
 void main () {
-    gl_Position = position * transform;
+	vec4 pos = position * transform;
+	if (pos.z > 3000.0)
+	{
+		pos.x = pos.x * 0.6;
+		pos.y -= 500.0;
+	}
+    gl_Position = pos;
 	uvVarying = uv;
     colorVarying = color;
 }
 ]=]
 
 local fsh = [=[
-uniform float viewWidth;
-uniform float viewHeight;
-
 varying LOWP vec4 colorVarying;
 varying MEDP vec2 uvVarying;
 
 uniform sampler2D sampler;
 
-const float RADIUS = 0.74;
-const float SOFTNESS = 0.45;
-const vec3 SEPIA = vec3(1.2, 1.0, 0.8);
-
 void main() {
-	vec4 color = texture2D ( sampler, uvVarying );
-
-	// 1. VIGNETTE
-
-	vec2 position = (gl_FragCoord.xy / vec2(viewWidth, viewHeight)) - vec2(0.5);
-
-	float len = length(position);
-
-	float vignette = smoothstep( RADIUS, RADIUS-SOFTNESS, len);
-
-	color.rgb = mix(color.rgb, color.rgb*vignette, 0.5);
-
-	// 2. GRAYSCALE
-
-	float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
-
-	// 3. SEPIA
-
-	vec3 sepiaColor = vec3(gray) * SEPIA;
-
-	color.rgb = mix(color.rgb, sepiaColor, 0.75);
-
-	gl_FragColor = color * colorVarying;
+	gl_FragColor = texture2D ( sampler, uvVarying ) * colorVarying;
 }
 ]=]
 
@@ -65,14 +42,16 @@ function M_:setup( layer )
 	self:createShader()
 
 	local prop2 = self:addMyMesh()
+	prop2:setLoc( 0, 0, 0 )
 	layer:insertProp ( prop2 )
 
 	local prop = self:loadMesh()
+	prop:setLoc( 0, 0, -200 )
 	layer:insertProp ( prop )
 
 	local camera = MOAICamera.new ()
-	camera:setLoc( 0, 500, 1000 )
-	camera:lookAt( 0, 0, 600 )
+	camera:setLoc( 0, 3000, 1000 )
+	camera:lookAt( 0, 0, 500 )
 	camera:setOrtho( false )
 	layer:setCamera ( camera )
 end
@@ -84,15 +63,11 @@ function M_:createShaderProgram()
 	program:setVertexAttribute ( 2, 'uv' )
 	program:setVertexAttribute ( 3, 'color' )
 
-	program:reserveUniforms ( 3 )
+	program:reserveUniforms ( 1 )
 	program:declareUniform ( 1, 'transform', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 2, 'viewWidth', MOAIShaderProgram.UNIFORM_FLOAT )
-	program:declareUniform ( 3, 'viewHeight', MOAIShaderProgram.UNIFORM_FLOAT )
 
-	program:reserveGlobals ( 3 )
-	program:setGlobal ( 1, 1, MOAIShaderProgram.GLOBAL_WORLD_VIEW_PROJ )
-	program:setGlobal ( 2, 2, MOAIShaderProgram.GLOBAL_VIEW_WIDTH )
-	program:setGlobal ( 3, 3, MOAIShaderProgram.GLOBAL_VIEW_HEIGHT )
+	program:reserveGlobals ( 1 )
+	program:setGlobal ( 1, 1, MOAIShaderProgram.GLOBAL_WORLD_VIEW_PROJ ) -- GLOBAL_WORLD_VIEW_PROJ
 
 	program:load ( vsh, fsh )
 

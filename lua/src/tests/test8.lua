@@ -6,8 +6,8 @@ attribute vec4 position;
 attribute vec2 uv;
 attribute vec4 color;
 
-varying LOWP vec4 colorVarying;
-varying MEDP vec2 uvVarying;
+varying vec4 colorVarying;
+varying vec2 uvVarying;
 
 void main () {
     gl_Position = position * transform;
@@ -17,42 +17,51 @@ void main () {
 ]=]
 
 local fsh = [=[
-uniform float viewWidth;
-uniform float viewHeight;
-
 varying LOWP vec4 colorVarying;
 varying MEDP vec2 uvVarying;
 
-uniform sampler2D sampler;
+uniform sampler2D sampler0;
+uniform sampler2D sampler1;
 
-const float RADIUS = 0.74;
-const float SOFTNESS = 0.45;
-const vec3 SEPIA = vec3(1.2, 1.0, 0.8);
+//values used for shading algorithm...
+const vec2 Resolution = vec2(2000.0, 2000.0);      //resolution of screen
+const vec3 LightPos = vec3(0.0, 0.0, 0.0);        //light position, normalized
+const vec4 LightColor = vec4(1.0, 0.8, 0.6, 1.0);      //light RGBA -- alpha is intensity
+const vec4 AmbientColor = vec4(0.6, 0.6, 0.8, 0.2);    //ambient RGBA -- alpha is intensity 
+const vec3 Falloff = vec3(0.4, 3.0, 20.0);         //attenuation coefficients
 
 void main() {
-	vec4 color = texture2D ( sampler, uvVarying );
+	vec4 DiffuseColor = texture2D( sampler0, uvVarying );
 
-	// 1. VIGNETTE
+	vec3 NormalMap = texture2D( sampler1, uvVarying ).rgb;
 
-	vec2 position = (gl_FragCoord.xy / vec2(viewWidth, viewHeight)) - vec2(0.5);
+	vec3 LightDir = vec3(LightPos.xy - (gl_FragCoord.xy / Resolution.xy), LightPos.z);
 
-	float len = length(position);
+	//Correct for aspect ratio
+    // LightDir.x *= Resolution.x / Resolution.y;
+	
+	//Determine distance (used for attenuation) BEFORE we normalize our LightDir
+    float D = length(LightDir);
 
-	float vignette = smoothstep( RADIUS, RADIUS-SOFTNESS, len);
+    //normalize our vectors
+    vec3 N = normalize(NormalMap * 2.0 - 1.0);
+    vec3 L = normalize(LightDir);
 
-	color.rgb = mix(color.rgb, color.rgb*vignette, 0.5);
+    //Pre-multiply light color with intensity
+    //Then perform "N dot L" to determine our diffuse term
+    vec3 Diffuse = (LightColor.rgb * LightColor.a) * max(dot(N, L), 0.0);
 
-	// 2. GRAYSCALE
+    //pre-multiply ambient color with intensity
+    vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
 
-	float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+    //calculate attenuation
+    float Attenuation = 1.0 / ( Falloff.x + (Falloff.y*D) + (Falloff.z*D*D) );
 
-	// 3. SEPIA
+    //the calculation which brings it all together
+    vec3 Intensity = Ambient + Diffuse * Attenuation;
+    vec3 FinalColor = DiffuseColor.rgb * Intensity;
 
-	vec3 sepiaColor = vec3(gray) * SEPIA;
-
-	color.rgb = mix(color.rgb, sepiaColor, 0.75);
-
-	gl_FragColor = color * colorVarying;
+    gl_FragColor = vec4(FinalColor, DiffuseColor.a) * colorVarying;
 }
 ]=]
 
@@ -63,16 +72,19 @@ local M_ = {}
 function M_:setup( layer )
 	self:createShaderProgram()
 	self:createShader()
+	self:createMulti()
 
 	local prop2 = self:addMyMesh()
+	prop2:setLoc( 0, 0, 0 )
 	layer:insertProp ( prop2 )
 
 	local prop = self:loadMesh()
+	prop:setLoc( 0, 0, -200 )
 	layer:insertProp ( prop )
 
 	local camera = MOAICamera.new ()
-	camera:setLoc( 0, 500, 1000 )
-	camera:lookAt( 0, 0, 600 )
+	camera:setLoc( 0, 1000, 1000 )
+	camera:lookAt( 0, 0, 500 )
 	camera:setOrtho( false )
 	layer:setCamera ( camera )
 end
@@ -86,13 +98,11 @@ function M_:createShaderProgram()
 
 	program:reserveUniforms ( 3 )
 	program:declareUniform ( 1, 'transform', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 2, 'viewWidth', MOAIShaderProgram.UNIFORM_FLOAT )
-	program:declareUniform ( 3, 'viewHeight', MOAIShaderProgram.UNIFORM_FLOAT )
+	program:declareUniformSampler ( 2, 'sampler0', 1 )
+	program:declareUniformSampler ( 3, 'sampler1', 2 )
 
-	program:reserveGlobals ( 3 )
-	program:setGlobal ( 1, 1, MOAIShaderProgram.GLOBAL_WORLD_VIEW_PROJ )
-	program:setGlobal ( 2, 2, MOAIShaderProgram.GLOBAL_VIEW_WIDTH )
-	program:setGlobal ( 3, 3, MOAIShaderProgram.GLOBAL_VIEW_HEIGHT )
+	program:reserveGlobals ( 1 )
+	program:setGlobal ( 1, 1, MOAIShaderProgram.GLOBAL_WORLD_VIEW_PROJ ) -- GLOBAL_WORLD_VIEW_PROJ
 
 	program:load ( vsh, fsh )
 
@@ -105,13 +115,28 @@ function M_:createShader()
 	self.shader = shader
 end
 
+function M_:createMulti()
+	local multitexture = MOAIMultiTexture.new ()
+	multitexture:reserve ( 2 )
+
+	local texture1 = MOAITexture.new ()
+	texture1:load ( "assets/3ds/brick.png" )
+	multitexture:setTexture ( 1, texture1 )
+
+	local texture2 = MOAITexture.new ()
+	texture2:load ( "assets/3ds/normal_map.png" )
+	multitexture:setTexture ( 2, texture2 )
+
+	self.multi = multitexture
+end
+
 function M_:loadMesh()
 	local file = MOAIFileSystem.loadFile( 'assets/3ds/MyBoxy.mesh' )
     local mesh = assert( loadstring(file) )()
 
     print('mesh', mesh, mesh.textureName)
 
-    mesh:setTexture ( "assets/3ds/moai.png" )
+    mesh:setTexture ( self.multi )
     mesh:setShader ( self.shader )
 
     local prop = MOAIProp.new ()
@@ -208,7 +233,7 @@ function M_:createMesh()
 	-- MESH
 	local mesh = MOAIMesh.new ()
 	mesh:setVertexBuffer( vbo, vertexFormat )
-	mesh:setTexture ( "assets/3ds/moai.png" )
+	mesh:setTexture ( self.multi )
 	mesh:setPrimType ( MOAIMesh.GL_TRIANGLES )
 	mesh:setShader ( self.shader )--MOAIShaderMgr.getShader( MOAIShaderMgr.MESH_SHADER ) )
 	-- mesh:setShader ( MOAIShaderMgr.getShader ( MOAIShaderMgr.LINE_SHADER_3D ))
