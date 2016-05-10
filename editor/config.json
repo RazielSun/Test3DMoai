@@ -16,6 +16,10 @@
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/trees/Models/Trees/tree_a.fbx", 
         "per_pixel": 1.0
+      }, 
+      {
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/landscape.fbx", 
+        "per_pixel": 256.0
       }
     ], 
     "export_path": "assets/3ds/", 

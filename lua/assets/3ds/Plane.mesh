@@ -1,0 +1,153 @@
+--MOAI
+local deserializer = ... or MOAIDeserializer.new ()
+local base64 = MOAIDeserializer.base64Decode
+
+local function init ( objects )
+
+	--Initializing Tables
+	local table
+
+	table = objects [ 0x03 ]
+	table.mTotalVBOs = 0
+	table.mSize = 8640
+	table.mData = 'nZmxbd0wFEW1QAbIBvmpAriOJSAq0wVewVOk4AIZ4LtyGStNdogLF85MCflIijJwHnRJNQYO9K+A63coiZqm5Xn6/vsyTY/PUzn+xWNK/NOPyIPxv6+vnzOfdv5r+3gr8ZKf+Jt8vK53vpcf/jS+aXzP327Pr+ud7+XHo/U2S7z1MJ9f1zvfyw9fDr1pvPUwn1/XO9/Ln9bK7+7uNF7yEz+/rne+l7+srbeg8b2HIFzX8yjyl28X+2v86+0+h4XnORc4ejHgL+bHOdz5pnH2ot9fzI9H622WOHvR7y/mxzlsvWmcvej3F/PjHBae51zg6MWAv5i/rK23oHH0zvXX8SjN/7uLzV08Hq7Xgy+ZpzmUOHox4C/mpzmsfNM4e9HvL+anOdx7myXOXvT7i/lpDvfeNM5e9PuL+WkOM09zKHH0YsBfzF/W1lvQOHrn+ut4ZPeXD/Z/zveX4/3IeFnnBU5ejPhL+bbOF76JHL0Y8JfybZ2vvc0aRy8G/KV8W+drbyJHLwb8pXxb542XdV7g5MWIv5S/rK23IHLyzvXX8WjZ34vKMe9zWI7ynnLO0YsBfzE//z7zTePsRb+/mP+2M4mzF/3+Yn6cw9abxtmLfn8xP85hOcp7yjlHLwb8xfxlbbUFjaN3rr+ORzb/P2tPD9f3R1+M53Ve4OjFgL+Yb3NY+KZx9qLfX8y3Oay9zRJnL/r9xXybw9qbxtmLfn8x3+bQeF7nBY5eDPiL+cvaegsaR+9cfx2P7Pntqf7u5ubmMOeZpznUOHkx4i/l23NU4ZvI0YsBfynfnqNqb7PG0YsBfynfnqNqbyJHLwb8pXx7jjKe5lDj5MWIv5S/rK23IHLyzvXX8cj2H56qr/F9bT7sAxgv+wDnHL0Y8BfzbR+g8E3j7EW/v5hv+wC1t1ni7EW/v5hv+wC1N42zF/3+Yr7tAxgv+wDnHL0Y8Bfzl7X1FjSO3rn+Oh7Z/SXyYPz+/v64zhtPcyhx9GLAX8y3db7wTePsRb+/mG/rfO1tljh70e8v5ts6X3vTOHvR7y/m2zpvPM2hxNGLAX8xf1lbb0Hj6J3rr+ORff+N/HGtz5qH77DG83uKwNGLAX8x377DFr5pnL3o9xfz7Tts7W2WOHvR7y/m23fY2pvG2Yt+fzHfvsMaz+8pAkcvBvzF/GVtvQWNo3d83f8='
+
+	table = objects [ 0x05 ]
+	table.mAttributeUseTable = objects [ 0x06 ]
+	table.mTotalAttributes = 3
+	table.mVertexSize = 24
+	table.mAttributes = objects [ 0x0B ]
+
+	table = objects [ 0x06 ]
+	table [ 1 ]	= objects [ 0x07 ]
+	table [ 2 ]	= objects [ 0x08 ]
+	table [ 3 ]	= objects [ 0x09 ]
+	table [ 4 ]	= objects [ 0x0A ]
+
+	table = objects [ 0x07 ]
+	table.mUse = 59
+	table.mAttrID = 2
+
+	table = objects [ 0x08 ]
+	table.mUse = 62
+	table.mAttrID = 4294967295
+
+	table = objects [ 0x09 ]
+	table.mUse = 65
+	table.mAttrID = 1
+
+	table = objects [ 0x0A ]
+	table.mUse = 66
+	table.mAttrID = 0
+
+	table = objects [ 0x0B ]
+	table [ 1 ]	= objects [ 0x0C ]
+	table [ 2 ]	= objects [ 0x0D ]
+	table [ 3 ]	= objects [ 0x0E ]
+
+	table = objects [ 0x0C ]
+	table.mNormalized = false
+	table.mOffset = 0
+	table.mType = 162
+	table.mIndex = 0
+	table.mSize = 3
+
+	table = objects [ 0x0D ]
+	table.mNormalized = false
+	table.mOffset = 12
+	table.mType = 162
+	table.mIndex = 1
+	table.mSize = 2
+
+	table = objects [ 0x0E ]
+	table.mNormalized = true
+	table.mOffset = 20
+	table.mType = 165
+	table.mIndex = 2
+	table.mSize = 4
+
+	table = objects [ 0x0F ]
+	table.loc = objects [ 0x10 ]
+	table.rot = objects [ 0x11 ]
+	table.scl = objects [ 0x12 ]
+
+	table = objects [ 0x10 ]
+	table [ 1 ]	= 0
+	table [ 2 ]	= 0
+	table [ 3 ]	= 0
+
+	table = objects [ 0x11 ]
+	table [ 1 ]	= 0
+	table [ 2 ]	= 0
+	table [ 3 ]	= 0
+
+	table = objects [ 0x12 ]
+	table [ 1 ]	= 1
+	table [ 2 ]	= 1
+	table [ 3 ]	= 1
+
+	table = objects [ 0x13 ]
+	table.mHasBounds = true
+	table.mTotalVertexBuffers = 1
+	table.mVertexBuffers = objects [ 0x14 ]
+	table.mPenWidth = 1
+	table.mTotalElements = 360
+	table.mTotalVAOs = 0
+	table.mIndexBuffer = 0
+	table.mBounds = objects [ 0x16 ]
+
+	table = objects [ 0x14 ]
+	table [ 1 ]	= objects [ 0x15 ]
+
+	table = objects [ 0x15 ]
+	table.mBuffer = 2
+	table.mFormat = 4
+
+	table = objects [ 0x16 ]
+	table.mMaxZ = 1280
+	table.mMinX = -768
+	table.mMinZ = -1280
+	table.mMinY = -9.9999923008909e-08
+	table.mMaxX = 768
+	table.mMaxY = 1.0000007932831e-07
+
+	deserializer:initObject ( objects [ 0x01 ], 'MOAIMesh', nil, objects [ 0x0F ], objects [ 0x13 ]) --MOAIMesh
+	deserializer:initObject ( objects [ 0x02 ], 'MOAIVertexBuffer', nil, nil, objects [ 0x03 ]) --MOAIVertexBuffer
+	deserializer:initObject ( objects [ 0x04 ], 'MOAIVertexFormat', nil, nil, objects [ 0x05 ]) --MOAIVertexFormat
+end
+
+--Declaring Objects
+local objects = {
+
+	--Declaring Tables
+	[ 0x03 ] = {},
+	[ 0x05 ] = {},
+	[ 0x06 ] = {},
+	[ 0x07 ] = {},
+	[ 0x08 ] = {},
+	[ 0x09 ] = {},
+	[ 0x0A ] = {},
+	[ 0x0B ] = {},
+	[ 0x0C ] = {},
+	[ 0x0D ] = {},
+	[ 0x0E ] = {},
+	[ 0x0F ] = {},
+	[ 0x10 ] = {},
+	[ 0x11 ] = {},
+	[ 0x12 ] = {},
+	[ 0x13 ] = {},
+	[ 0x14 ] = {},
+	[ 0x15 ] = {},
+	[ 0x16 ] = {},
+
+	--Declaring Instances
+	[ 0x01 ] = deserializer:registerObjectID ( deserializer:createObject ( 'MOAIMesh' ), 0x01 ),
+	[ 0x02 ] = deserializer:registerObjectID ( deserializer:createObject ( 'MOAIVertexBuffer' ), 0x02 ),
+	[ 0x04 ] = deserializer:registerObjectID ( deserializer:createObject ( 'MOAIVertexFormat' ), 0x04 ),
+
+}
+
+init ( objects )
+
+--Returning Root
+return objects [ 0x01 ]
