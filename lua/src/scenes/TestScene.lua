@@ -41,7 +41,10 @@ function TestScene:initReferences()
 	-- require("tests.test8"):setup( self.defaultLayer )
 
 	-- test 9 - Test curve
-	require("tests.test9"):setup( self.defaultLayer )
+	-- require("tests.test9"):setup( self.defaultLayer )
+
+	-- test 10 - Sample 3d curve
+	require("tests.test10"):setup( self.defaultLayer )
 
 end
 

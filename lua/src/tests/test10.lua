@@ -1,16 +1,8 @@
 
 local vsh = [=[
-uniform float viewWidth;
-uniform float viewHeight;
-
 uniform mat4 world;
-uniform mat4 worldInverse;
-
-uniform mat4 worldView;
-uniform mat4 worldViewInverse;
-
 uniform mat4 viewProj;
-uniform mat4 worldViewProj;
+uniform float horizont;
 
 attribute vec4 position;
 attribute vec2 uv;
@@ -19,24 +11,18 @@ attribute vec4 color;
 varying vec4 colorVarying;
 varying vec2 uvVarying;
 
-const float HORIZON = 0.0;
-const float SPREAD = 0.0;
-const float ATTENUATE = 0.0006;
-
 void main () {
-	vec4 pos = position * worldViewProj;
+	vec4 model = position * world;
+	float dist = model.z - horizont;
+	if (dist < 0.0) {
+		dist = 0.0;
+	}
+	model.y -= dist * dist * 0.0006;
+	vec4 pos = model * viewProj;
 
     gl_Position = pos;
 	uvVarying = uv;
-
-	vec4 t = position * world;
-	float dist = max(0.0, abs(HORIZON - t.z) - SPREAD);
-	t.y -= dist * dist * ATTENUATE;
-	// t.xyz = vec4(t * worldInverse).xyz;
-
-	gl_Position = t * viewProj;
-
-	colorVarying = color;
+    colorVarying = color;
 }
 ]=]
 
@@ -51,6 +37,8 @@ void main() {
 }
 ]=]
 
+local sizeW, sizeH, sizeD = 6, 0.2, 10
+
 local M_ = {}
 
 function M_:setup( layer )
@@ -62,20 +50,35 @@ function M_:setup( layer )
 	layer:insertProp ( prop2 )
 
 	local prop = self:loadMesh()
-	prop:setLoc( 0, 128, -200 )
+	prop:setLoc( 0, 120, -200 )
 	layer:insertProp ( prop )
 
 	local camera = MOAICamera.new ()
-	-- camera:setLoc( 0, 1500, 3000 )
+	camera:setLoc( 0, 500, 3000 )
+	camera:setRot( -30, 0, 0 )
 	-- camera:lookAt( 0, 0, 500 )
-	camera:setOrtho( false )
-	camera:setLoc( 0, 1600, 0 )
-	camera:setRot( -90, 0, 0 )
-	-- camera:lookAt( 0, 0, 0 )
-	
+	-- camera:setOrtho( true )
 	layer:setCamera ( camera )
 
-	camera:seekLoc( 0, 1600, -1000, 10.0 )
+	local dprop = MOAIProp.new()
+	local cx, cy, cz = camera:getLoc()
+	dprop:setLoc( cx, cy, cz-2000 )
+	-- dprop:setAttrLink( MOAIProp.INHERIT_TRANSFORM, camera, MOAIProp.TRANSFORM_TRAIT )
+
+	-- self.shader:setAttr(3, 0.0)
+	self.shader:setAttrLink( 3, dprop, MOAITransform.ATTR_Z_LOC )
+
+	self.znode = MOAIScriptNode.new()
+	self.znode:reserveAttrs( 1 )
+	self.znode:setCallback( function(node)
+		local value = node:getAttr( 1 )
+		print("update:", value)
+	end )
+
+	-- self.znode:setAttrLink( 1, dprop, MOAITransform.ATTR_Z_LOC )
+
+	camera:seekLoc( cx, cy, -cz, 10 )
+	dprop:seekLoc( cx, cy, -cz-2000, 10 )
 end
 
 function M_:createShaderProgram()
@@ -85,25 +88,14 @@ function M_:createShaderProgram()
 	program:setVertexAttribute ( 2, 'uv' )
 	program:setVertexAttribute ( 3, 'color' )
 
-	program:reserveUniforms ( 8 )
+	program:reserveUniforms ( 3 )
 	program:declareUniform ( 1, 'viewProj', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 2, 'viewWidth', MOAIShaderProgram.UNIFORM_FLOAT )
-	program:declareUniform ( 3, 'viewHeight', MOAIShaderProgram.UNIFORM_FLOAT )
-	program:declareUniform ( 4, 'worldInverse', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 5, 'worldView', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 6, 'worldViewInverse', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 7, 'worldViewProj', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	program:declareUniform ( 8, 'world', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
-	
-	program:reserveGlobals ( 8 )
+	program:declareUniform ( 2, 'world', MOAIShaderProgram.UNIFORM_MATRIX_F4 )
+	program:declareUniform ( 3, 'horizont', MOAIShaderProgram.UNIFORM_FLOAT )
+
+	program:reserveGlobals ( 2 )
 	program:setGlobal ( 1, 1, MOAIShaderProgram.GLOBAL_VIEW_PROJ )
-	program:setGlobal ( 2, 2, MOAIShaderProgram.GLOBAL_VIEW_WIDTH )
-	program:setGlobal ( 3, 3, MOAIShaderProgram.GLOBAL_VIEW_HEIGHT )
-	program:setGlobal ( 4, 4, MOAIShaderProgram.GLOBAL_WORLD_INVERSE )
-	program:setGlobal ( 5, 5, MOAIShaderProgram.GLOBAL_WORLD_VIEW )
-	program:setGlobal ( 6, 6, MOAIShaderProgram.GLOBAL_WORLD_VIEW_INVERSE )
-	program:setGlobal ( 7, 7, MOAIShaderProgram.GLOBAL_WORLD_VIEW_PROJ )
-	program:setGlobal ( 8, 8, MOAIShaderProgram.GLOBAL_WORLD )
+	program:setGlobal ( 2, 2, MOAIShaderProgram.GLOBAL_WORLD )	
 
 	program:load ( vsh, fsh )
 
