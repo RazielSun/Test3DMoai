@@ -1,29 +1,111 @@
 {
+  "debug_draw_config": {
+    "PARTITION_CELLS": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "PARTITION_PADDED_CELLS": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "PROP_MODEL_BOUNDS": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "PROP_WORLD_BOUNDS": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "TEXT_BOX": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "TEXT_BOX_BASELINES": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "TEXT_BOX_GLYPHS": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "TEXT_BOX_GLYPH_BOUNDS": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }, 
+    "TEXT_BOX_LAYOUT": {
+      "color": [
+        1.0, 
+        1.0, 
+        1.0
+      ], 
+      "state": false, 
+      "width": 1
+    }
+  }, 
   "mesh_export_config": {
     "data": [
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mycube.fbx", 
-        "per_pixel": 256.0
+        "per_pixel": 128.0
       }, 
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mycube-obj/mycube.obj", 
-        "per_pixel": 256
-      }, 
-      {
-        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/rocks/Models/rock_a.fbx", 
-        "per_pixel": 3.0
+        "per_pixel": 128.0
       }, 
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/trees/Models/Trees/tree_a.fbx", 
         "per_pixel": 1.0
       }, 
       {
-        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/landscape.fbx", 
-        "per_pixel": 256.0
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/rocks/Models/rock_a.fbx", 
+        "per_pixel": 2.0
+      }, 
+      {
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mushrooms/Models/house_05.obj", 
+        "per_pixel": 5.0
       }
     ], 
-    "export_path": "assets/3ds/", 
-    "pixel_per_point": 256
+    "export_path": "assets/3ds/"
   }, 
   "preview": {
     "height": 736, 

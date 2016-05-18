@@ -11,13 +11,15 @@ attribute vec4 color;
 varying vec4 colorVarying;
 varying vec2 uvVarying;
 
+const float K = 0.0006;
+
 void main () {
 	vec4 model = position * world;
 	float dist = model.z - horizont;
-	if (dist < 0.0) {
-		dist = 0.0;
+	if (dist >= 0.0) {
+		model.y -= K * dist * dist;
 	}
-	model.y -= dist * dist * 0.0006;
+
 	vec4 pos = model * viewProj;
 
     gl_Position = pos;
@@ -25,6 +27,11 @@ void main () {
     colorVarying = color;
 }
 ]=]
+
+-- float k = 
+-- 		float beta = 1.57 - atan(k, dist);
+-- 		float dz = model.y * tan(beta);
+-- 		float y = model.y - k;
 
 local fsh = [=[
 varying LOWP vec4 colorVarying;
@@ -45,13 +52,17 @@ function M_:setup( layer )
 	self:createShaderProgram()
 	self:createShader()
 
-	local prop2 = self:loadPlane()
-	prop2:setLoc( 0, 0, 0 )
-	layer:insertProp ( prop2 )
+	local plane = self:create( 'Plane.mesh', 'ground.png' )
+	plane:setLoc( 0, 0, 0 )
+	layer:insertProp ( plane )
 
-	local prop = self:loadMesh()
-	prop:setLoc( 0, 120, -200 )
-	layer:insertProp ( prop )
+	local tree = self:create( 'tree_a.mesh', 'trees.png' )
+	tree:setLoc( 100, 120, -300 )
+	layer:insertProp ( tree )
+
+	local rock = self:create( 'rock_a.mesh', 'rocks.png' )
+	rock:setLoc( -100, 120, 300 )
+	layer:insertProp ( rock )
 
 	local camera = MOAICamera.new ()
 	camera:setLoc( 0, 500, 3000 )
@@ -77,8 +88,8 @@ function M_:setup( layer )
 
 	-- self.znode:setAttrLink( 1, dprop, MOAITransform.ATTR_Z_LOC )
 
-	camera:seekLoc( cx, cy, -cz, 10 )
-	dprop:seekLoc( cx, cy, -cz-2000, 10 )
+	camera:seekLoc( cx, cy, -cz, 30, MOAIEaseType.LINEAR )
+	dprop:seekLoc( cx, cy, -cz-2000, 30, MOAIEaseType.LINEAR )
 end
 
 function M_:createShaderProgram()
@@ -108,34 +119,18 @@ function M_:createShader()
 	self.shader = shader
 end
 
-function M_:loadMesh()
-	local file = MOAIFileSystem.loadFile( 'assets/3ds/MyBoxy.mesh' )
+function M_:create( meshName, spriteName )
+	local base = 'assets/3ds/'
+	local file = MOAIFileSystem.loadFile( base .. meshName )
     local mesh = assert( loadstring(file) )()
 
-    print('mesh', mesh, mesh.textureName)
-
-    mesh:setTexture ( "assets/3ds/moai.png" )
+    mesh:setTexture ( base .. spriteName )
     mesh:setShader ( self.shader )
 
     local prop = MOAIProp.new ()
 	prop:setDeck ( mesh )
-	prop:setCullMode ( MOAIGraphicsProp.CULL_BACK )
-	
-	return prop
-end
-
-function M_:loadPlane()
-	local file = MOAIFileSystem.loadFile( 'assets/3ds/Plane.mesh' )
-    local mesh = assert( loadstring(file) )()
-
-    print('mesh', mesh, mesh.textureName)
-
-    mesh:setTexture ( "assets/3ds/moai.png" )
-    mesh:setShader ( self.shader )
-
-    local prop = MOAIProp.new ()
-	prop:setDeck ( mesh )
-	prop:setCullMode ( MOAIGraphicsProp.CULL_BACK )
+	prop:setDepthTest( MOAIGraphicsProp.DEPTH_TEST_LESS )
+	-- prop:setCullMode ( MOAIGraphicsProp.CULL_BACK )
 	
 	return prop
 end

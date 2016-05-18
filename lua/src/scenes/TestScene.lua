@@ -16,6 +16,8 @@ end
 
 --------------------------------------------------------------------------------
 function TestScene:initReferences()
+	MOAIGfxDevice.getFrameBuffer():setClearDepth( true )
+
 	-- default basic shader
 	-- require("tests.test1"):setup( self.defaultLayer )
 
