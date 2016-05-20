@@ -56,7 +56,7 @@ MOAISim.setLoopFlags(MOAISim.SIM_LOOP_LONG_DELAY)
 MOAISim.setBoostThreshold(0)
 MOAISim.setLongDelayThreshold(5)
 
-RenderMgr:setClearColor( 220.0/255.0, 178.0/255.0, 92.0/255.0, 1 )
+RenderMgr:setClearColor( 137.0/255.0, 208.0/255.0, 223.0/255.0, 1 )
 
 
 

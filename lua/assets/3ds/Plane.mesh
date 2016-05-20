@@ -9,8 +9,8 @@ local function init ( objects )
 
 	table = objects [ 0x03 ]
 	table.mTotalVBOs = 0
-	table.mSize = 8640
-	table.mData = 'nZmxbd0wFEW1QAbIBvmpAriOJSAq0wVewVOk4AIZ4LtyGStNdogLF85MCflIijJwHnRJNQYO9K+A63coiZqm5Xn6/vsyTY/PUzn+xWNK/NOPyIPxv6+vnzOfdv5r+3gr8ZKf+Jt8vK53vpcf/jS+aXzP327Pr+ud7+XHo/U2S7z1MJ9f1zvfyw9fDr1pvPUwn1/XO9/Ln9bK7+7uNF7yEz+/rne+l7+srbeg8b2HIFzX8yjyl28X+2v86+0+h4XnORc4ejHgL+bHOdz5pnH2ot9fzI9H622WOHvR7y/mxzlsvWmcvej3F/PjHBae51zg6MWAv5i/rK23oHH0zvXX8SjN/7uLzV08Hq7Xgy+ZpzmUOHox4C/mpzmsfNM4e9HvL+anOdx7myXOXvT7i/lpDvfeNM5e9PuL+WkOM09zKHH0YsBfzF/W1lvQOHrn+ut4ZPeXD/Z/zveX4/3IeFnnBU5ejPhL+bbOF76JHL0Y8JfybZ2vvc0aRy8G/KV8W+drbyJHLwb8pXxb542XdV7g5MWIv5S/rK23IHLyzvXX8WjZ34vKMe9zWI7ynnLO0YsBfzE//z7zTePsRb+/mP+2M4mzF/3+Yn6cw9abxtmLfn8xP85hOcp7yjlHLwb8xfxlbbUFjaN3rr+ORzb/P2tPD9f3R1+M53Ve4OjFgL+Yb3NY+KZx9qLfX8y3Oay9zRJnL/r9xXybw9qbxtmLfn8x3+bQeF7nBY5eDPiL+cvaegsaR+9cfx2P7Pntqf7u5ubmMOeZpznUOHkx4i/l23NU4ZvI0YsBfynfnqNqb7PG0YsBfynfnqNqbyJHLwb8pXx7jjKe5lDj5MWIv5S/rK23IHLyzvXX8cj2H56qr/F9bT7sAxgv+wDnHL0Y8BfzbR+g8E3j7EW/v5hv+wC1t1ni7EW/v5hv+wC1N42zF/3+Yr7tAxgv+wDnHL0Y8Bfzl7X1FjSO3rn+Oh7Z/SXyYPz+/v64zhtPcyhx9GLAX8y3db7wTePsRb+/mG/rfO1tljh70e8v5ts6X3vTOHvR7y/m2zpvPM2hxNGLAX8xf1lbb0Hj6J3rr+ORff+N/HGtz5qH77DG83uKwNGLAX8x377DFr5pnL3o9xfz7Tts7W2WOHvR7y/m23fY2pvG2Yt+fzHfvsMaz+8pAkcvBvzF/GVtvQWNo3d83f8='
+	table.mSize = 34560
+	table.mData = 'nd0/qxzXGcfxKa1UVrMh3SAIttM4oFJkZnL3FqcI7tQlMJXKVAkCVaeU3oBBJm2Q/xR+AU4xuZtiCrtyFYgDzgtw2uAm2Tn3nJ0n8H3Q71k1hi/L7+KR9sPu3NnZrkund7/96IMuP/lbV//89/ynO/fjg19/0HUflv7q5Tu/uu8H2welm/3B7vPP9R7v7a93e89S3/fz8Paf6z3e20+mL1Lf9xfh53qP9/a7zhy3UenmOIxv/7ne4739dLP3Xur7fj++/ed6j/f2V9Mnqe/7k/Bzvcd7+4fj3mep7/uz8HO9x3v7yfQsdfPvVvi5njPp9Ifx8fnxj2p/efHE9EHp7EbcN95f7/aepc5uxH3j/WT6InV2I+4b73edOW6j0h03wr7xfrrZey91diPuG++vpk9SZzfivvH+4bj3WersRtw33k+mZ6mzS65vjjPp9OaPPz8//lD6N19/fXmemj4ond2I+8b7693es9TZjbhvvJ9MX6TObsR94/2uM8dtVLrjRtg33k83e++lzm7EfeP91fRJ6uxG3DfePxz3Pkud3Yj7xvvJ9Cx1dsn1zXEmnf7+xU/Pj3/QXp8M7Xlq+qB0diPuG++vd3vPUmc34r7xfjJ9kTq7EfeN97vOHLdR6Y4bYd94P93svZc6uxH3jfdX0yepsxtx33j/cNz7LHV2I+4b7yfTs9TZJdc3x5l0+sm/Hpwf/+Np6198/ouLJ6YPSmc34r7x/nq39yx1diPuG+8n0xepsxtx33i/68xxG5XuuBH2jffTzd57qbMbcd94fzV9kjq7EfeN9w/Hvc9SZzfivvF+Mj1LnV1yfXOcSacXv/zP+133/en+9clvLs9T0welsxtx33h/vdt7ljq7EfeN95Ppi9TZjbhvvN915riNSnfcCPvG++lm773U2Y24b7y/mj5Jnd2I+8b7h+PeZ6mzG3HfeD+ZnqXOLrm+Oc6k0z//9I9zX0v/9w+/vzxPTR+Uzm7EfeP99W7vWersRtw33k+mL1JnN+K+8X7XmeM2Kt1xI+wb76ebvfdSZzfivvH+avokdXYj7hvvH457n6XObsR94/1kepY6u+T65jiz/X7qr+f+5ameHx723xNd+qB0diPuG+9vvydqPUud3Yj7xvvJ9EXq7EbcN97ffk90OW6j0h03wr7x/vZ7otZ7qbMbcd94fzV9kjq7EfeN97ffE7U+S53diPvG+8n0LHV2yfXNcWY7P/znc/+49E9evzbnky99UDq7EfeN97fztK1nqbMbcd94P5m+SJ3diPvG+9t52stxG5XuuBH2jfe387St91JnN+K+8f5q+iR1diPuG+9v52lbn6XObsR94/1kepY6u+T65jiznZ95de4v6vmZz815kksflM5uxH3j/e08SetZ6uxG3DfeT6YvUmc34r7x/nae5HLcRqU7boR94/3tPEnrvdTZjbhvvL+aPkmd3Yj7xvvbeZLWZ6mzG3HfeD+ZnqXOLrm+Oc5s749++/72363/5auvzPuUSx+Uzm7EfeP97X1K61nq7EbcN95Ppi9SZzfivvH+9j7lctxGpTtuhH3j/e19Suu91NmNuG+8v5o+SZ3diPvG+9v7lNZnqbMbcd94P5mepc4uub45zpTrc97fnpf1+hx7PU/rg9LZjbhvvF+uk6k9S53diPvG+8n0RersRtw33i/XybTjNirdcSPsG++X62Rq76XObsR94/3V9Enq7EbcN94v18nUPkud3Yj7xvvJ9Cx1dsn1zXGmnB9+b3selL/r776z52lbH5TObsR94/1ynrb2LHV2I+4b7yfTF6mzG3HfeL+cp23HbVS640bYN94v52lr76XObsR94/3V9Enq7EbcN94v52lrn6XObsR94/1kepY6u+T65jhTXp+8t/27u//91A/2dULrg9bJjWt8o/3yOqH2LHZy4xrfaD+Zvoid3LjGN9ovrxPacRu1jm5c4Rvtl9cJtfdiJzeu8Y32V9MnsZMb1/hG++V1Qu2z2MmNa3yj/WR6Fju55PrmOHP/vsj8Gdvz1LRB6exG3Dfev/fr/k+WOrsR9433k+mL1NmNuG+8//9/h0p33Aj7xvvpZs+91NmNuG+8v5o+SZ3diPvG+4fj3mepsxtx33g/mZ6lzi65vjnOFB/etL+3Vy/fsZ60Piid3Yj7xvvleVp7ljq7EfeN95Ppi9TZjbhvvF+ep+24jUp33Aj7xvvleVp7L3V2I+4b76+mT1JnN+K+8X55ntY+S53diPvG+8n0LHV2yfXNcaa8P3rT/j8ePnxoHLj0QevkxjW+0X55n1J7Fju5cY1vtJ9MX8ROblzjG+2X9yntuI1aRzeu8I32y/uU2nuxkxvX+Eb7q+mT2MmNa3yj/fI+pfZZ7OTGNb7RfjI9i51ccn1znCnnhz9tbn3y+mejOU/b+qB0diPuG++X87S1Z6mzG3HfeD+Zvkid3Yj7xvvlPG07bqPSHTfCvvF+OU9bey91diPuG++vpk9SZzfivvF+OU9b+yx1diPuG+8n07PU2SXXN8eZ8vrk0/Z66tGjR/Z1QuuD0tmNuG+8X14n1J6lzm7EfeP9ZPoidXYj7hvvl9cJ7biNSnfcCPvG++V1Qu291NmNuG+8v5o+SZ3diPvG++V1Qu2z1NmNuG+8n0zPUmeXXN8cZ8r1gef+4lg/nz6a6/RaH5TObsR94/1ynV7tWersRtw33k+mL1JnN+K+8X65Tq8dt1Hpjhth33i/XKdXey91diPuG++vpk9SZzfivvF+uU6v9lnq7EbcN95Ppmeps0uub44z5fMR5/5x6Y8fPzavEy59UDq7EfeN98vnFGrPUmc34r7xfjJ9kTq7EfeN98vnFNpxG5XuuBH2jffL5xRq76XObsR94/3V9Enq7EbcN94vn1OofZY6uxH3jfeT6Vnq7JLrm+NM+XzouX95vL8++cloPqfZ+qB0diPuG++Xz2nWnqXObsR94/1k+iJ1diPuG++Xz2m24zYq3XEj7Bvvl89p1t5Lnd2I+8b7q+mT1NmNuG+8Xz6nWfssdXYj7hvvJ9Oz1Nkl1zfHmXJ++NzX0m9vb+152tYHpbMbcd94v5ynrT1Lnd2I+8b7yfRF6uxG3DfeL+dp23Eble64EfaN98t52tp7qbMbcd94fzV9kjq7EfeN98t52tpnqbMbcd94P5mepc4uub45zpT7g53798d6f7DR3Ker9UHp7EbcN94v9+mqPUud3Yj7xvvJ9EXq7EbcN94v9+lqx21UuuNG2DfeL/fpqr2XOrsR9433V9MnqbMbcd94v9ynq/ZZ6uxG3DfeT6ZnqbNLrm+OM+X+qJ913Y+lP3361JwnufRB6exG3DfeL/cprT1Lnd2I+8b7yfRF6uxG3DfeL/cpbcdtVLrjRtg33i/3Ka29lzq7EfeN91fTJ6mzG3HfeL/cp7T2WersRtw33k+mZ6mzS65vjjPl/vCfdfnB7f3ns343mvu0tz4ond2I+8b75T7ttWepsxtx33g/mb5Ind2I+8b75T7t7biNSnfcCPvG++U+7bX3Umc34r7x/mr6JHV2I+4b75f7tNc+S53diPvG+8n0LHV2yfXNcaZcn3N+/KH0Z8+e2etkWh+Uzm7EfeP9cp1M7Vnq7EbcN95Ppi9SZzfivvF+uU6mHbdR6Y4bYd94v1wnU3svdXYj7hvvr6ZPUmc34r7xfrlOpvZZ6uxG3DfeT6ZnqbNLrm+OM+X7Ac+Pf3Rb7888mu/pa31QOrsR9433y/f01Z6lzm7EfeP9ZPoidXYj7hvvl+/pa8dtVLrjRtg33i/f01d7L3V2I+4b76+mT1JnN+K+8X75nr7aZ6mzG3HfeD+ZnqXOLrm+Oc6U70c+P/7D0p8/f25+T3Tpg9LZjbhvvF++p7j2LHV2I+4b7yfTF6mzG3HfeL98T3E7bqPSHTfCvvF++Z7i2nupsxtx33h/NX2SOrsR9433y/cU1z5Lnd2I+8b7yfQsdXbJ9c1xJp3e/faj8+Of3LbPsrbnqemD0tmNuG+8v97tPUud3Yj7xvvJ9EXq7EbcN97vOnPcRqU7boR94/10s/de6uxG3DfeX02fpM5uxH3j/cNx77PU2Y24b7yfTM9SZ5f45/4P'
 
 	table = objects [ 0x05 ]
 	table.mAttributeUseTable = objects [ 0x06 ]
@@ -91,7 +91,7 @@ local function init ( objects )
 	table.mTotalVertexBuffers = 1
 	table.mVertexBuffers = objects [ 0x14 ]
 	table.mPenWidth = 1
-	table.mTotalElements = 360
+	table.mTotalElements = 1440
 	table.mTotalVAOs = 0
 	table.mIndexBuffer = 0
 	table.mBounds = objects [ 0x16 ]
@@ -104,12 +104,12 @@ local function init ( objects )
 	table.mFormat = 4
 
 	table = objects [ 0x16 ]
-	table.mMaxZ = 1280
-	table.mMinX = -768
-	table.mMinZ = -1280
-	table.mMinY = -9.9999923008909e-08
-	table.mMaxX = 768
-	table.mMaxY = 1.0000007932831e-07
+	table.mMaxZ = 750
+	table.mMinX = -200
+	table.mMinZ = -750
+	table.mMinY = -9.9999958536046e-08
+	table.mMaxX = 200
+	table.mMaxY = 1.0000004380117e-07
 
 	deserializer:initObject ( objects [ 0x01 ], 'MOAIMesh', nil, objects [ 0x0F ], objects [ 0x13 ]) --MOAIMesh
 	deserializer:initObject ( objects [ 0x02 ], 'MOAIVertexBuffer', nil, nil, objects [ 0x03 ]) --MOAIVertexBuffer

@@ -46,11 +46,29 @@ function TestScene:initReferences()
 	-- require("tests.test9"):setup( self.defaultLayer )
 
 	-- test 10 - Sample 3d curve
-	require("tests.test10"):setup( self.defaultLayer )
-
+	-- require("tests.test10"):setup( self.defaultLayer )
+	self:initMap()
 end
 
+function TestScene:initMap()
+	local MapView = require("views.MapView")
+	local map = self:addEntity( MapView() )
+	self.map = map
+end
 
+function TestScene:onLoad()
+	-- self.inputDevice:addListener( self.jui )
+	self.inputDevice:addListener( self.map )
+
+	-- UIMgr:setMainUI( self.jui )
+end
+
+function TestScene:onUnload()
+	-- self.inputDevice:removeListener( self.jui )
+	self.inputDevice:removeListener( self.map )
+
+	-- UIMgr:removeMainUI( self.jui )
+end
 
 --------------------------------------------------------------------------------
 

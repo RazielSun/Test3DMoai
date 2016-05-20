@@ -57,15 +57,19 @@ function M_:setup( layer )
 	layer:insertProp ( plane )
 
 	local tree = self:create( 'tree_a.mesh', 'trees.png' )
-	tree:setLoc( 100, 120, -300 )
+	tree:setLoc( 100, 10, -300 )
 	layer:insertProp ( tree )
 
 	local rock = self:create( 'rock_a.mesh', 'rocks.png' )
-	rock:setLoc( -100, 120, 300 )
+	rock:setLoc( -100, 10, 300 )
+	layer:insertProp ( rock )
+
+	local rock = self:create( 'Cylinder.mesh', 'points.png' )
+	rock:setLoc( 0, 10, 500 )
 	layer:insertProp ( rock )
 
 	local camera = MOAICamera.new ()
-	camera:setLoc( 0, 500, 3000 )
+	camera:setLoc( 0, 300, 900 )
 	camera:setRot( -30, 0, 0 )
 	-- camera:lookAt( 0, 0, 500 )
 	-- camera:setOrtho( true )
@@ -73,7 +77,7 @@ function M_:setup( layer )
 
 	local dprop = MOAIProp.new()
 	local cx, cy, cz = camera:getLoc()
-	dprop:setLoc( cx, cy, cz-2000 )
+	dprop:setLoc( cx, cy, cz-500 )
 	-- dprop:setAttrLink( MOAIProp.INHERIT_TRANSFORM, camera, MOAIProp.TRANSFORM_TRAIT )
 
 	-- self.shader:setAttr(3, 0.0)
@@ -89,7 +93,7 @@ function M_:setup( layer )
 	-- self.znode:setAttrLink( 1, dprop, MOAITransform.ATTR_Z_LOC )
 
 	camera:seekLoc( cx, cy, -cz, 30, MOAIEaseType.LINEAR )
-	dprop:seekLoc( cx, cy, -cz-2000, 30, MOAIEaseType.LINEAR )
+	dprop:seekLoc( cx, cy, -cz-1000, 30, MOAIEaseType.LINEAR )
 end
 
 function M_:createShaderProgram()

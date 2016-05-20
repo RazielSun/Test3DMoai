@@ -94,15 +94,23 @@
       }, 
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/trees/Models/Trees/tree_a.fbx", 
-        "per_pixel": 1.0
+        "per_pixel": 0.0
       }, 
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/rocks/Models/rock_a.fbx", 
-        "per_pixel": 2.0
+        "per_pixel": 1.0
       }, 
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mushrooms/Models/house_05.obj", 
         "per_pixel": 5.0
+      }, 
+      {
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/landscape.fbx", 
+        "per_pixel": 100.0
+      }, 
+      {
+        "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/point.fbx", 
+        "per_pixel": 10.0
       }
     ], 
     "export_path": "assets/3ds/"
