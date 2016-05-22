@@ -10,7 +10,7 @@ local function init ( objects )
 	table = objects [ 0x03 ]
 	table.mTotalVBOs = 0
 	table.mSize = 2880
-	table.mData = 'lZaxbsIwEIZdHqAz3dhRp6xtSQY2niMzj5A+AUOXhomBx2CIkdjCM1G7ORNbyX93Pgkp+nX6fvts32GMj1NpzKoyFA8Xw9epcz/Sm43Xf5YfldfP++/q3vefsn4pPf+8fyE94U98UT7iL9a///rheivv/e5L0l/fl14vD9ct6bwvylf4dse2FfWITzrvi/IRP6qbdftS6M86kM77onzEj+6VdR8bpe7vCem8L8pHfLdOG9Z5bN8U+qULvoPO+6J8xHfnaMM5FkUh6u5cbDiXQed9Ub7C199DUY/4pPO+KB/xo7pVdV0r9GcdSOd9UT7ip32y0erU9xrRN7dPjvkh+D6M+gzi5PYlBUfVTxT7yukDE07u+2XWk/XumPpkvRcFR3XPFfti7mej4MzPcfR/Y9TH4OavzIccNK8TPuKgeYf4iMPMKWGeTtYzO1/k+Tupz+xckPmQg+ZIwlfsK+nDiK+oc9Kf5T6fcv4A'
+	table.mData = 'nZY/SwNBEMVXC0sbm0MUREuxSiu4q1hoYyfYCCIE0SYgWCgGYkCsDJLCfygWqawsBeNxGxAR7fwCfggLO725cHHO27e750Gax/B7uzOzMxGCvhspxJi6fquG5fLhzHf8ia4exb9EL5Waid4MphXprUpNfW0OhDtLxw69LYnfqvSp18vZ8Oizzvk5XxSP+P2TZ4ne6DzJ96DyeHtQs+qDUwHpstGZl8Mbo+HcyJ7VF8V7+EakD62tW3XGj4g/sbhl9UXxiM/ypilvu88LDr2XB015WN5ftfqieMRnfaWp7kJIH536JNEvzlesvige8eNz6vSc46cPPD9Ab0ep7331yumL4hE/rqNO61h/+QhZ/xj1uC46rctJcMfrYvRF8R6+knTW50ad8SXxWd8afVE84rO8Kcobmz9A7+VBUR7Yuzb6onjER3PSoZvmntG36Jz8jRei67v9r/mGOEXnkgfHa5543KvIHMhxir5fy3kKvTtLfgq9Fw+OV5973MurPzHHvMfd7yjLQfvXzYcctK8zfMRB+w7xEceypxz7NHce435x799cfox7wc2HHLRHMnyPe2XmMOJ75Pnv/1vHnM9yfgA='
 
 	table = objects [ 0x05 ]
 	table.mAttributeUseTable = objects [ 0x06 ]

@@ -86,7 +86,7 @@
     "data": [
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mycube.fbx", 
-        "per_pixel": 128.0
+        "per_pixel": 32.0
       }, 
       {
         "path": "/Users/rsun/Developer/Moai/Projects/Tools/Test3DMoai/3ds/mycube-obj/mycube.obj", 

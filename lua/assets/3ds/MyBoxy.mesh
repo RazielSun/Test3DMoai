@@ -10,7 +10,7 @@ local function init ( objects )
 	table = objects [ 0x03 ]
 	table.mTotalVBOs = 0
 	table.mSize = 864
-	table.mData = 'nZLLDcAwCEPZrAcv1t08WH+qSokwoY2UQ54UGxmbGczvdbbj3G86X5eB82RNDudBP/PlS2vkdP7o0/8E34rDecu34lk+SHxnnB/mocgty+fPvijyYbEv1HMq/Rav9pX1NssNk/5Q9IeiP6rPwXcH'
+	table.mData = 'nZLLDcAwCEPZDHmzrObJ+lGr0KRAaJG4PCUYGYs0SO+rtqNuRuNNJ362FjmMD/M9Xdr7F6fxPp+PP1rkMF7SzbjnDxzdFeeHfRj45vnz514M/GFyL+R7RvNLPLuXl1vPNyzywyA/DPIT5XnQ3QE='
 
 	table = objects [ 0x05 ]
 	table.mAttributeUseTable = objects [ 0x06 ]
@@ -104,12 +104,12 @@ local function init ( objects )
 	table.mFormat = 4
 
 	table = objects [ 0x16 ]
-	table.mMaxZ = 128
-	table.mMinX = -128
-	table.mMinZ = -128
-	table.mMinY = -128
-	table.mMaxX = 128
-	table.mMaxY = 128
+	table.mMaxZ = 16
+	table.mMinX = -16
+	table.mMinZ = -16
+	table.mMinY = -16
+	table.mMaxX = 16
+	table.mMaxY = 16
 
 	deserializer:initObject ( objects [ 0x01 ], 'MOAIMesh', nil, objects [ 0x0F ], objects [ 0x13 ]) --MOAIMesh
 	deserializer:initObject ( objects [ 0x02 ], 'MOAIVertexBuffer', nil, nil, objects [ 0x03 ]) --MOAIVertexBuffer
