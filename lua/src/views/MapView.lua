@@ -113,7 +113,7 @@ end
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 local DISTANCE = -700
 local K_VALUE = 0.0008
-local HORIZONT = 95
+local HORIZONT = 0 --95
 
 function MapView:onLoad()
 	self:createContent()
@@ -143,7 +143,7 @@ function MapView:onLoad()
 		MOAIDraw.drawRect( unpack(self.rect2) )
 		MOAIGfxDevice.setPenColor ( 0, 1, 0, 1 )
 		-- MOAIDraw.drawLine( -hW, HORIZONT, hW, HORIZONT )
-		local h = -112
+		local h = -26
 		MOAIDraw.drawLine( -hW, h, hW, h )
 	end )
 
@@ -162,41 +162,8 @@ function MapView:onLoad()
 	self.rect2[1] = bounds2[1]
 	self.rect2[3] = bounds2[3]
 
-	-- print("bounds1:",unpack(bounds1))
-	-- print("T")
 	local halfH = App.viewHeight * 0.5
 	local cx, cy, cz = self._camera:getLoc()
-
-	-- local startValue = 30
-	-- local cdy0 = startValue
-	-- local cdy1 = startValue
-	-- local cdx0 = startValue
-	-- local cdx1 = startValue
-
-	-- for t = 0, 1, 0.005 do
-	-- 	local y = self:calcViewY(t)
-	-- 	local dy0 = math.abs(y+cz-bounds1[2])
-	-- 	local dy1 = math.abs(y+cz-bounds1[4])
-	-- 	if dy0 < cdy0 then
-	-- 		cdy0=dy0
-	-- 		self.rect[2] = t*(HORIZONT + halfH) - halfH
-	-- 	end
-	-- 	if dy1 < cdy1 then
-	-- 		cdy1=dy1
-	-- 		self.rect[4] = t*(HORIZONT + halfH) - halfH
-	-- 	end
-
-	-- 	local dx0 = math.abs(y+cz-bounds2[2])
-	-- 	local dx1 = math.abs(y+cz-bounds2[4])
-	-- 	if dx0 < cdx0 then
-	-- 		cdx0=dx0
-	-- 		self.rect2[2] = t*(HORIZONT + halfH) - halfH
-	-- 	end
-	-- 	if dx1 < cdx1 then
-	-- 		cdx1=dx1
-	-- 		self.rect2[4] = t*(HORIZONT + halfH) - halfH
-	-- 	end
-	-- end
 
 	local startValue = 3
 	local cdy0 = startValue
@@ -204,9 +171,24 @@ function MapView:onLoad()
 	local cdx0 = startValue
 	local cdx1 = startValue
 
-	for i = 0, 463 do
+	-- print("viewHeight:",App.viewHeight)
+	self.A = -0.002585
+	self.B = -0.314687
+
+	local HH = HORIZONT + halfH
+	local PP = 108
+	local SC = HH/PP
+	local f0 = -700 - (-250 * SC)
+	local f1 = HH * HH - PP * PP * SC
+	self.A = f0/f1
+	self.B = (-700 - self.A * HH * HH) / HH
+
+	print("A B", self.A, self.B)
+
+	for i = 0, HH do
 		local z = self:getZ( i )
 		local ff = i - halfH
+		print(ff, z)
 		local dy0 = math.abs(z+cz-bounds1[2])
 		local dy1 = math.abs(z+cz-bounds1[4])
 		if dy0 < cdy0 then cdy0=dy0 ; self.rect[2] = ff end
@@ -251,7 +233,7 @@ function MapView:createContent()
 	layer:insertProp ( prop )
 
 	self._camera:setLoc( 0, 0, -300 )
-	self._camera:setRot( -15, 0, 0 )
+	-- self._camera:setRot( -15, 0, 0 )
 	self._camPos = { self._camera:getLoc() }
 end
 
@@ -317,10 +299,8 @@ function MapView:calcViewY( t )
 	local sx, sy = unpack(scl)
 	local y1 = DISTANCE * sx
 	local y2 = DISTANCE * sy
-	local y3 = DISTANCE*1.0
-
+	local y3 = DISTANCE * 1.0
 	local y = self:bezier( t, y0, y1, y2, y3 )
-
 	return y
 end
 
@@ -337,7 +317,7 @@ function MapView:getPointBounds( num )
 end
 
 function MapView:getZ( viewY )
-	return -0.0024 * viewY * viewY - 0.3 * viewY
+	return self.A * viewY * viewY + self.B * viewY
 end
 
 function MapView:onInputEvent( event )
