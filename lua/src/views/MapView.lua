@@ -178,10 +178,11 @@ function MapView:onLoad()
 	local HH = HORIZONT + halfH
 	local PP = 108
 	local SC = HH/PP
-	local f0 = -700 - (-250 * SC)
+	local mH = -476
+	local f0 = mH - (-250 * SC)
 	local f1 = HH * HH - PP * PP * SC
 	self.A = f0/f1
-	self.B = (-700 - self.A * HH * HH) / HH
+	self.B = (mH - self.A * HH * HH) / HH
 
 	print("A B", self.A, self.B)
 
@@ -205,7 +206,7 @@ function MapView:createContent()
 	local layer = self.layer
 
 	local plane = self:create( 'Plane.mesh', 'ground.png' )
-	plane:setLoc( 0, 0, -1100 )
+	plane:setLoc( 0, 0, -750 )
 	layer:insertProp ( plane )
 
 	local tree = self:create( 'tree_a.mesh', 'trees.png' )
@@ -232,7 +233,7 @@ function MapView:createContent()
 	prop:setLoc( 130, 16, -750 )
 	layer:insertProp ( prop )
 
-	self._camera:setLoc( 0, 0, -300 )
+	self._camera:setLoc( 0, 0, 226 )
 	-- self._camera:setRot( -15, 0, 0 )
 	self._camPos = { self._camera:getLoc() }
 end
@@ -241,11 +242,11 @@ function MapView:createPoints()
 	local layer = self.layer
 
 	local point = self:create( 'Cylinder.mesh', 'points.png' )
-	point:setLoc( 0, 10, -550 )
+	point:setLoc( 0, 10, -60 )
 	layer:insertProp ( point )
 
 	local point2 = self:create( 'Cylinder.mesh', 'points.png' )
-	point2:setLoc( 20, 10, -750 )
+	point2:setLoc( 50, 10, -300 )
 	layer:insertProp ( point2 )
 
 	self.points = { point, point2 }
