@@ -75,7 +75,7 @@ function MapView:initScrollArea()
 			direction = ScrollArea.DIRECTIONS.VERTICAL,
 			target = self,
 			boundRect = { -halfW, -halfH, halfW, halfH },
-			contentRect = { 0, -500, halfW, 1200 },
+			contentRect = { 0, -300, halfW, 1100 },
 		} )
 	)
 
@@ -128,84 +128,6 @@ function MapView:onLoad()
 		self.shader:setAttr(3, value+DISTANCE)
 	end )
 	self.znode:setAttrLink( 1, self._camera, MOAITransform.ATTR_Z_LOC )
-
-	self.rect = {-300,-300,300,300}
-	self.rect2 = {-300,-300,300,300}
-
-	local scriptDeck = MOAIScriptDeck.new ()
-	local hW, hH = App.viewWidth*0.5, App.viewHeight*0.5
-	scriptDeck:setRect ( -hW, -hH, hW, hH )
-	scriptDeck:setDrawCallback ( function (index, xOff, yOff, xFlip, yFlip)
-		MOAIGfxDevice.setPenColor ( 1, 0, 0, 1 )
-		MOAIGfxDevice.setPenWidth ( 2 )
-		MOAIDraw.drawRect( unpack(self.rect) )
-		MOAIGfxDevice.setPenColor ( 0, 0, 1, 1 )
-		MOAIDraw.drawRect( unpack(self.rect2) )
-		MOAIGfxDevice.setPenColor ( 0, 1, 0, 1 )
-		-- MOAIDraw.drawLine( -hW, HORIZONT, hW, HORIZONT )
-		-- local h = -26
-		-- MOAIDraw.drawLine( -hW, h, hW, h )
-	end )
-
-	local prop = MOAIProp2D.new ()
-	prop:setDeck ( scriptDeck )
-	self.scrollArea.layer:insertProp ( prop )
-
-	RenderMgr:addChild(self.scrollArea.layer)
-
-	local bounds1 = self:getPointBounds(1)
-	local bounds2 = self:getPointBounds(2)
-
-	self.rect[1] = bounds1[1]
-	self.rect[3] = bounds1[3]
-
-	self.rect2[1] = bounds2[1]
-	self.rect2[3] = bounds2[3]
-
-	local halfH = App.viewHeight * 0.5
-	local cx, cy, cz = self._camera:getLoc()
-
-	local startValue = 5
-	local cdy0 = startValue
-	local cdy1 = startValue
-	local cdx0 = startValue
-	local cdx1 = startValue
-
-	-- print("viewHeight:",App.viewHeight)
-	self.A = -0.002585
-	self.B = -0.314687
-
-	
-	-- local PP = 108
-	-- local SC = HH/PP
-	-- local mH = -476
-	-- local f0 = mH - (-250 * SC)
-	-- local f1 = HH * HH - PP * PP * SC
-	-- self.A = f0/f1
-	-- self.B = (mH - self.A * HH * HH) / HH
-
-	print("A B", self.A, self.B)
-
-	local HH = HORIZONT + halfH
-
-	for i = 0, HH do
-		local nh = i / HH
-		local y = halfH * (1-nh)
-		local z = math.sqrt(y/K_VALUE)
-		local ff = i - halfH
-		local cur = DISTANCE+cz+z -- z-HOR
-		-- print(ff, z, cur)
-		-- print(i, cur)
-		local dy0 = math.abs(cur-bounds1[2])
-		local dy1 = math.abs(cur-bounds1[4])
-		if dy0 < cdy0 then cdy0=dy0 ; self.rect[2] = ff ; print("b1[2]", ff, z, cur) end
-		if dy1 < cdy1 then cdy1=dy1 ; self.rect[4] = ff ; print("b1[4]", ff, z, cur) end
-
-		local dx0 = math.abs(cur-bounds2[2])
-		local dx1 = math.abs(cur-bounds2[4])
-		if dx0 < cdx0 then cdx0=dx0 ; self.rect2[2] = ff ; print("b2[2]", ff, z, cur) end
-		if dx1 < cdx1 then cdx1=dx1 ; self.rect2[4] = ff ; print("b2[4]", ff, z, cur) end
-	end
 end
 
 function MapView:createContent()
@@ -216,30 +138,30 @@ function MapView:createContent()
 	layer:insertProp ( plane )
 
 	local tree = self:create( 'tree_a.mesh', 'trees.png' )
-	tree:setLoc( 100, 10, -1000 )
+	tree:setLoc( 100, 10, -800 )
 	layer:insertProp ( tree )
 
 	local tree2 = self:create( 'tree_a.mesh', 'trees.png' )
-	tree2:setLoc( -150, 10, -1400 )
+	tree2:setLoc( -150, 10, -1100 )
 	layer:insertProp ( tree2 )
 
 	local rock = self:create( 'rock_a.mesh', 'rocks.png' )
-	rock:setLoc( -120, 10, -700 )
+	rock:setLoc( -120, 10, -600 )
 	layer:insertProp ( rock )
 
 	local rock2 = self:create( 'rock_a.mesh', 'rocks.png' )
-	rock2:setLoc( 170, 10, -1600 )
+	rock2:setLoc( 170, 10, -1200 )
 	layer:insertProp ( rock2 )
 
 	local prop = self:create( 'MyBoxy.mesh', 'moai.png' )
-	prop:setLoc( -20, 16, -850 )
+	prop:setLoc( -100, 16, -350 )
 	layer:insertProp ( prop )
 
 	local prop = self:create( 'MyBoxy.mesh', 'moai.png' )
-	prop:setLoc( 130, 16, -750 )
+	prop:setLoc( 130, 16, -600 )
 	layer:insertProp ( prop )
 
-	self._camera:setLoc( 0, 0, 200 ) --226
+	self._camera:setLoc( 0, -HORIZONT, 0 ) --226
 	-- self._camera:setRot( -15, 0, 0 )
 	self._camera:setOrtho( true )
 	self._camPos = { self._camera:getLoc() }
@@ -249,12 +171,12 @@ function MapView:createPoints()
 	local layer = self.layer
 
 	local point = self:create( 'Cylinder.mesh', 'points.png' )
-	point:setLoc( 0, 0, -60 )
+	point:setLoc( 0, 0, -220 )
 	point.isp = true
 	layer:insertProp ( point )
 
 	local point2 = self:create( 'Cylinder.mesh', 'points.png' )
-	point2:setLoc( 50, 0, -300 )
+	point2:setLoc( 20, 0, -400 )
 	point2.isp = true
 	layer:insertProp ( point2 )
 
@@ -283,50 +205,11 @@ end
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function MapView:setLoc( x, y, z )
 	local cx, cy, cz = unpack(self._camPos)
+	-- print("MapView setLoc", cx, cy, cz, "to:", x, y, z)
 	self._camera:setLoc( cx, cy, y )
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-function MapView:calcZ( value )
-	local halfH = App.viewHeight * 0.5
-	local vz = value + halfH
-	local nz = vz / (HORIZONT + halfH)
-	local z = nz * DISTANCE
-
-	local dist = DISTANCE - z
-
-	return self:calcViewY( nz )
-end
-
--- local scl = { 0, 0 }
--- local scl = { 1, 1 }
--- local scl = { 0.55, 0.11 }
-local scl = { 0, 0 }
-
-function MapView:calcViewY( t )
-	local y0 = 0
-	local sx, sy = unpack(scl)
-	local y1 = DISTANCE * sx
-	local y2 = DISTANCE * sy
-	local y3 = DISTANCE * 1.0
-	local y = self:bezier( t, y0, y1, y2, y3 )
-	return y
-end
-
-function MapView:bezier( t, v0, v1, v2, v3 )
-	local value = (1-t)*(1-t)*(1-t)*v0 + 3*t*(1-t)*(1-t)*v1 + 3*t*t*(1-t)*v2 + t*t*t*v3
-	return value
-end
-
-function MapView:getPointBounds( num )
-	local point = self.points[num]
-	local minX, minY, minZ, maxX, maxY, maxZ = point:getBounds()
-	local x, y, z = point:getLoc()
-	local bounds = { minX+x, minZ+z, maxX+x, maxZ+z }
-	print(num, ". bounds", unpack(bounds))
-	return bounds
-end
 
 function MapView:getZ( viewY )
 	local cx, cy, cz = self._camera:getLoc()
