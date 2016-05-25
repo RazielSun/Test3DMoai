@@ -40,9 +40,11 @@ local windowParams = {
     viewOffset = {0, 0},
 }
 
-App:openWindow("FruityMap", windowParams)
+App:openWindow("Test", windowParams)
 App.LAYOUT = isBig and "ipad" or "iphone"
 App.DEBUG = DEBUG
+
+print("SCREEN:",windowParams.screenWidth, windowParams.screenHeight, "VIEW:",windowParams.viewWidth, windowParams.viewHeight)
 
 -- Default effect is DARKEN
 -- Shader linking is not needed (was used for DESATURATE)

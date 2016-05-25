@@ -75,7 +75,7 @@ function MapView:initScrollArea()
 			direction = ScrollArea.DIRECTIONS.VERTICAL,
 			target = self,
 			boundRect = { -halfW, -halfH, halfW, halfH },
-			contentRect = { 0, 0, halfW, 1424 },
+			contentRect = { 0, -500, halfW, 1200 },
 		} )
 	)
 
@@ -143,8 +143,8 @@ function MapView:onLoad()
 		MOAIDraw.drawRect( unpack(self.rect2) )
 		MOAIGfxDevice.setPenColor ( 0, 1, 0, 1 )
 		-- MOAIDraw.drawLine( -hW, HORIZONT, hW, HORIZONT )
-		local h = -26
-		MOAIDraw.drawLine( -hW, h, hW, h )
+		-- local h = -26
+		-- MOAIDraw.drawLine( -hW, h, hW, h )
 	end )
 
 	local prop = MOAIProp2D.new ()
@@ -165,7 +165,7 @@ function MapView:onLoad()
 	local halfH = App.viewHeight * 0.5
 	local cx, cy, cz = self._camera:getLoc()
 
-	local startValue = 3
+	local startValue = 5
 	local cdy0 = startValue
 	local cdy1 = startValue
 	local cdx0 = startValue
@@ -175,30 +175,36 @@ function MapView:onLoad()
 	self.A = -0.002585
 	self.B = -0.314687
 
-	local HH = HORIZONT + halfH
-	local PP = 108
-	local SC = HH/PP
-	local mH = -476
-	local f0 = mH - (-250 * SC)
-	local f1 = HH * HH - PP * PP * SC
-	self.A = f0/f1
-	self.B = (mH - self.A * HH * HH) / HH
+	
+	-- local PP = 108
+	-- local SC = HH/PP
+	-- local mH = -476
+	-- local f0 = mH - (-250 * SC)
+	-- local f1 = HH * HH - PP * PP * SC
+	-- self.A = f0/f1
+	-- self.B = (mH - self.A * HH * HH) / HH
 
 	print("A B", self.A, self.B)
 
-	for i = 0, HH do
-		local z = self:getZ( i )
-		local ff = i - halfH
-		print(ff, z)
-		local dy0 = math.abs(z+cz-bounds1[2])
-		local dy1 = math.abs(z+cz-bounds1[4])
-		if dy0 < cdy0 then cdy0=dy0 ; self.rect[2] = ff end
-		if dy1 < cdy1 then cdy1=dy1 ; self.rect[4] = ff end
+	local HH = HORIZONT + halfH
 
-		local dx0 = math.abs(z+cz-bounds2[2])
-		local dx1 = math.abs(z+cz-bounds2[4])
-		if dx0 < cdx0 then cdx0=dx0 ; self.rect2[2] = ff end
-		if dx1 < cdx1 then cdx1=dx1 ; self.rect2[4] = ff end
+	for i = 0, HH do
+		local nh = i / HH
+		local y = halfH * (1-nh)
+		local z = math.sqrt(y/K_VALUE)
+		local ff = i - halfH
+		local cur = DISTANCE+cz+z -- z-HOR
+		-- print(ff, z, cur)
+		-- print(i, cur)
+		local dy0 = math.abs(cur-bounds1[2])
+		local dy1 = math.abs(cur-bounds1[4])
+		if dy0 < cdy0 then cdy0=dy0 ; self.rect[2] = ff ; print("b1[2]", ff, z, cur) end
+		if dy1 < cdy1 then cdy1=dy1 ; self.rect[4] = ff ; print("b1[4]", ff, z, cur) end
+
+		local dx0 = math.abs(cur-bounds2[2])
+		local dx1 = math.abs(cur-bounds2[4])
+		if dx0 < cdx0 then cdx0=dx0 ; self.rect2[2] = ff ; print("b2[2]", ff, z, cur) end
+		if dx1 < cdx1 then cdx1=dx1 ; self.rect2[4] = ff ; print("b2[4]", ff, z, cur) end
 	end
 end
 
@@ -233,8 +239,9 @@ function MapView:createContent()
 	prop:setLoc( 130, 16, -750 )
 	layer:insertProp ( prop )
 
-	self._camera:setLoc( 0, 0, 226 )
+	self._camera:setLoc( 0, 0, 200 ) --226
 	-- self._camera:setRot( -15, 0, 0 )
+	self._camera:setOrtho( true )
 	self._camPos = { self._camera:getLoc() }
 end
 
@@ -242,11 +249,13 @@ function MapView:createPoints()
 	local layer = self.layer
 
 	local point = self:create( 'Cylinder.mesh', 'points.png' )
-	point:setLoc( 0, 10, -60 )
+	point:setLoc( 0, 0, -60 )
+	point.isp = true
 	layer:insertProp ( point )
 
 	local point2 = self:create( 'Cylinder.mesh', 'points.png' )
-	point2:setLoc( 50, 10, -300 )
+	point2:setLoc( 50, 0, -300 )
+	point2.isp = true
 	layer:insertProp ( point2 )
 
 	self.points = { point, point2 }
@@ -314,11 +323,19 @@ function MapView:getPointBounds( num )
 	local point = self.points[num]
 	local minX, minY, minZ, maxX, maxY, maxZ = point:getBounds()
 	local x, y, z = point:getLoc()
-	return { minX+x, minZ+z, maxX+x, maxZ+z }
+	local bounds = { minX+x, minZ+z, maxX+x, maxZ+z }
+	print(num, ". bounds", unpack(bounds))
+	return bounds
 end
 
 function MapView:getZ( viewY )
-	return self.A * viewY * viewY + self.B * viewY
+	local cx, cy, cz = self._camera:getLoc()
+	local half = App.viewHeight * 0.5
+	local n = (viewY + half) / (HORIZONT + half)
+	local y = half * (1 - n)
+	local z = math.sqrt(y / K_VALUE)
+	local cur = DISTANCE + cz + z
+	return cur
 end
 
 function MapView:onInputEvent( event )
@@ -331,14 +348,14 @@ function MapView:onInputEvent( event )
 	    	local vx, vy = self.scrollArea.layer:wndToWorld( event.wx, event.wy )
 
 	    	if vy < HORIZONT then
-	    		local cx, cy, cz = self._camera:getLoc()
-	    		local x, y, z, dirX, dirY, dirZ = vx, 300, self:getZ(vy+App.viewHeight*0.5)+cz, 0, -1, 0
+	    		local x, y, z, dirX, dirY, dirZ = vx, 300, self:getZ(vy), 0, -1, 0
 
 	    		local partition = self.layer:getPartition()
 	    		local result = { partition:propListForRay( x, y, z, dirX, dirY, dirZ, defaultSortMode ) }
 	    		for i, elem in ipairs(result) do
-	    			-- print("elem:", elem, elem.name, elem:getLoc())
-	    			handled = elem
+	    			if elem.isp then
+	    				handled = elem
+	    			end
 	    			if handled then
 			    		break
 			    	end
@@ -350,8 +367,9 @@ function MapView:onInputEvent( event )
 	    	end
 
 	    	if handled then
-	    		handled:setScl( 1.2, 1, 1 )
+	    		handled:setScl( 1.2, 1, 1.2 )
 	    	end
+
 	    	-- local originX, originY, originZ, directionX, directionY, directionZ = self.layer:wndToWorldRay (  event.wx, event.wy )
 	    	-- print("wndToWorld:", originX, originY, originZ, directionX, directionY, directionZ)
 			-- local result = { partition:propListForRay( originX, originY, originZ, directionX, directionY, directionZ, defaultSortMode ) }
