@@ -113,7 +113,7 @@ end
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 local DISTANCE = -700
 local K_VALUE = 0.0008
-local HORIZONT = 0 --95
+local HORIZONT = 100 --95
 
 function MapView:onLoad()
 	self:createContent()
@@ -163,7 +163,7 @@ function MapView:createContent()
 
 	self._camera:setLoc( 0, -HORIZONT, 0 ) --226
 	-- self._camera:setRot( -15, 0, 0 )
-	self._camera:setOrtho( true )
+	-- self._camera:setOrtho( true )
 	self._camPos = { self._camera:getLoc() }
 end
 
@@ -210,15 +210,24 @@ function MapView:setLoc( x, y, z )
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-function MapView:getZ( viewY )
-	local cx, cy, cz = self._camera:getLoc()
-	local half = App.viewHeight * 0.5
-	local n = (viewY + half) / (HORIZONT + half)
-	local y = half * (1 - n)
-	local z = math.sqrt(y / K_VALUE)
-	local cur = DISTANCE + cz + z
-	return cur
+function MapView:calc( dx, dy, dz )
+	local k1 = (- K_VALUE)
+	local k2 = dy / dz
+	local A = k1
+	local B = - k2
+	local C = (- DISTANCE) * k2 + HORIZONT
+	local D = B * B - 4 * A * C
+	if D > 0 then
+		local a = 2 * A
+		local b = -B
+		local sq = math.sqrt(D)
+		local x1 = (b+sq) / a
+		local x2 = (b-sq) / a
+		local fx = math.max(x1, x2)
+		return true, fx
+	else
+		return false, 0
+	end
 end
 
 function MapView:onInputEvent( event )
@@ -231,7 +240,11 @@ function MapView:onInputEvent( event )
 	    	local vx, vy = self.scrollArea.layer:wndToWorld( event.wx, event.wy )
 
 	    	if vy < HORIZONT then
-	    		local x, y, z, dirX, dirY, dirZ = vx, 300, self:getZ(vy), 0, -1, 0
+	    		local x, y, z, dx, dy, dz = self.layer:wndToWorldRay( event.wx, event.wy )
+		    	local success, fx = self:calc( dx, dy, dz )
+		    	local cx, cy, cz = self._camera:getLoc()
+
+	    		local x, y, z, dirX, dirY, dirZ = vx, 300, cz+DISTANCE+fx, 0, -1, 0
 
 	    		local partition = self.layer:getPartition()
 	    		local result = { partition:propListForRay( x, y, z, dirX, dirY, dirZ, defaultSortMode ) }
